@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Document
 public class Screening {
 
+    private String id;
     private Movie movie;
     private LocalDateTime time;
     private Room room;

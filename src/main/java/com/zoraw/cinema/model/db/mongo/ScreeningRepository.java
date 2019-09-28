@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 @Repository
-public interface ScreeningRepository extends MongoRepository<Screening, Long> {
+public interface ScreeningRepository extends MongoRepository<Screening, String> {
 
     Set<ScreeningBasicDto> findByTimeBetween(LocalDateTime from, LocalDateTime to);
 
