@@ -14,7 +14,7 @@ import java.time.Month;
 import java.util.HashSet;
 
 @RequiredArgsConstructor
-@Profile("init")
+@Profile("demo")
 @Component
 public class MongoInit implements CommandLineRunner {
 
