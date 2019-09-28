@@ -7,10 +7,9 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
-public class ScreeningDto {
+public class ScreeningBasicDto {
 
     private String id;
     private MovieDto movie;
     private LocalDateTime time;
-    private RoomDto room;
 }
