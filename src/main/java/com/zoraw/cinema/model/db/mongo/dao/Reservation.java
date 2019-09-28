@@ -1,10 +1,10 @@
-package com.zoraw.cinema.model;
+package com.zoraw.cinema.model.db.mongo.dao;
 
-import lombok.Data;
+import lombok.Builder;
 
 import java.util.Set;
 
-@Data
+@Builder
 public class Reservation {
 
     private String firstName;
