@@ -11,6 +11,6 @@ public class ReservationDto {
 
     private String firstName;
     private String lastName;
-    private ScreeningDto screening;
+    private String screeningId;
     private Set<SeatDto> seats;
 }
