@@ -10,6 +10,9 @@ import java.time.LocalDateTime;
 @Builder
 public class ReservationResponseDto {
 
+    private boolean isSaved;
+    private ScreeningDto screeningDto;
+
     private BigDecimal amount;
     private LocalDateTime expirationTime;
 }

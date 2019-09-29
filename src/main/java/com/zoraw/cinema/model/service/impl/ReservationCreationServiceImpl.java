@@ -1,7 +1,9 @@
 package com.zoraw.cinema.model.service.impl;
 
+import com.zoraw.cinema.model.db.mongo.ReservationRepository;
 import com.zoraw.cinema.model.db.mongo.ScreeningRepository;
 import com.zoraw.cinema.model.db.mongo.dao.Screening;
+import com.zoraw.cinema.model.db.mongo.mapper.ReservationMapper;
 import com.zoraw.cinema.model.db.mongo.mapper.ScreeningMapper;
 import com.zoraw.cinema.model.dto.ReservationDto;
 import com.zoraw.cinema.model.dto.RoomDto;
@@ -19,6 +21,8 @@ import java.util.Set;
 public class ReservationCreationServiceImpl implements ReservationCreationService {
 
     private final ScreeningRepository screeningRepository;
+    private final ReservationRepository reservationRepository;
+    private final ReservationMapper reservationMapper;
     private final ScreeningMapper screeningMapper;
 
     @Override
@@ -35,6 +39,7 @@ public class ReservationCreationServiceImpl implements ReservationCreationServic
             } catch (OptimisticLockingFailureException ex) {
                 this.create(reservationDto);
             }
+            reservationRepository.save(reservationMapper.toReservation(reservationDto));
             return true;
         }
 
