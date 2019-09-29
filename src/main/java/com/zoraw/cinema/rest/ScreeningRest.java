@@ -1,6 +1,6 @@
-package com.zoraw.cinema.controller.rest;
+package com.zoraw.cinema.rest;
 
-import com.zoraw.cinema.controller.validation.DateOrderValidation;
+import com.zoraw.cinema.rest.validation.DateOrderValidation;
 import com.zoraw.cinema.model.dto.ScreeningBasicDto;
 import com.zoraw.cinema.model.dto.ScreeningDto;
 import com.zoraw.cinema.model.service.ScreeningService;

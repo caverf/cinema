@@ -1,4 +1,4 @@
-package com.zoraw.cinema.controller.rest;
+package com.zoraw.cinema.rest;
 
 import com.zoraw.cinema.model.dto.ReservationDto;
 import com.zoraw.cinema.model.dto.ReservationResponseDto;
