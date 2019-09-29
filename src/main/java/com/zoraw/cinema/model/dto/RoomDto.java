@@ -12,4 +12,7 @@ public class RoomDto {
     String name;
     Set<SeatDto> seats;
 
+    public boolean canReserveSeats(Set<SeatDto> seatsToReserve) {
+        return true;
+    }
 }

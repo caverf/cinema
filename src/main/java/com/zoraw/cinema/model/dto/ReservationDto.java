@@ -13,4 +13,5 @@ public class ReservationDto {
     private String lastName;
     private String screeningId;
     private Set<SeatDto> seats;
+
 }

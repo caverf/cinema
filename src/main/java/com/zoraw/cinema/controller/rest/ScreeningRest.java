@@ -13,11 +13,9 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 @RequiredArgsConstructor
-@RequestMapping(ScreeningRest.API_GATEWAY)
+@RequestMapping("/screenings")
 @RestController
 public class ScreeningRest {
-
-    static final String API_GATEWAY = "/screenings";
 
     private final DateOrderValidation dateOrderValidation;
     private final ScreeningService screeningService;
@@ -35,4 +33,5 @@ public class ScreeningRest {
     public ResponseEntity<ScreeningDto> getScreening(@PathVariable String screeningId) {
         return ResponseEntity.ok(screeningService.getScreening(screeningId));
     }
+
 }

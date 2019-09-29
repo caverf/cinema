@@ -6,13 +6,16 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @Builder
-@EqualsAndHashCode
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class SeatDto {
 
+    @EqualsAndHashCode.Include
     private String row;
+
+    @EqualsAndHashCode.Include
     private String number;
 
-    @EqualsAndHashCode.Exclude
-    private boolean isEdge;
+    private Boolean isAvailable;
+    private Boolean isEdge;
 
 }
