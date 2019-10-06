@@ -13,9 +13,9 @@ public class SeatDto {
     private String row;
 
     @EqualsAndHashCode.Include
-    private String number;
+    private int number;
 
-    private Boolean isAvailable;
-    private Boolean isEdge;
+    private boolean isAvailable;
+    private boolean isEdge;
 
 }

@@ -25,7 +25,7 @@ class ReservationServiceImpl implements ReservationService {
         boolean saved = reservationCreationService.create(reservationDto);
 
         if (saved) {
-           return null;
+            return null;
         }
 
         return ReservationResponseDto.builder()
@@ -35,7 +35,9 @@ class ReservationServiceImpl implements ReservationService {
     }
 
     private ScreeningDto getScreeningDto(ReservationDto reservationDto) {
-        return screeningMapper.toScreeningDto(screeningRepository.findById(reservationDto.getScreeningId()).orElseThrow(BusinessException::new));
+        return screeningMapper.toScreeningDto(
+                screeningRepository.findById(reservationDto.getScreeningId())
+                        .orElseThrow(BusinessException::new));
     }
 
 
