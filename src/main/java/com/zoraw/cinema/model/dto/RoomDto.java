@@ -15,6 +15,10 @@ public class RoomDto {
     Set<SeatDto> seats;
 
     public boolean canReserveSeats(Set<SeatDto> seatsToReserve) {
+        if(seatsToReserve.isEmpty()) {
+            return false;
+        }
+
         Map<SeatDto, Boolean> tmpSeats = seats.stream()
                 .collect(Collectors.toMap(seat -> seat, SeatDto::isAvailable));
 
