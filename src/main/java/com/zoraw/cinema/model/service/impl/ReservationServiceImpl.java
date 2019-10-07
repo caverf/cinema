@@ -8,6 +8,7 @@ import com.zoraw.cinema.model.dto.ScreeningDto;
 import com.zoraw.cinema.model.exception.BusinessException;
 import com.zoraw.cinema.model.service.ReservationCreationService;
 import com.zoraw.cinema.model.service.ReservationService;
+import com.zoraw.cinema.model.service.TicketCalculation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,7 @@ class ReservationServiceImpl implements ReservationService {
     private final ReservationCreationService reservationCreationService;
     private final ScreeningRepository screeningRepository;
     private final ScreeningMapper screeningMapper;
+    private final TicketCalculation ticketCalculation;
 
 
     @Override
@@ -25,7 +27,11 @@ class ReservationServiceImpl implements ReservationService {
         boolean saved = reservationCreationService.create(reservationDto);
 
         if (saved) {
-            return null;
+            return ReservationResponseDto.builder()
+                    .isSaved(true)
+                    .amount(ticketCalculation.calculateTotalAmount(reservationDto))
+                    //todo: expiration date
+                    .build();
         }
 
         return ReservationResponseDto.builder()

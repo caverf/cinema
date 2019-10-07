@@ -25,11 +25,11 @@ public class MongoInit implements CommandLineRunner {
 
         screeningRepository.save(Screening.builder()
                 .movie(Movie.builder()
-                        .title("Interstellar")
+                        .title("Zażółć gęślą jaźń - w poszukiwaniu polskich liter")
                         .build())
                 .time(LocalDateTime.of(2020, Month.JANUARY, 1, 20, 0))
                 .room(Room.builder()
-                        .name("small")
+                        .name("1")
                         .seats(new HashSet<>()).build())
                 .build());
     }

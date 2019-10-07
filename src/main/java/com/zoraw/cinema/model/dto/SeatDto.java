@@ -15,6 +15,8 @@ public class SeatDto implements Comparable<SeatDto>{
     @EqualsAndHashCode.Include
     private int number;
 
+    private TicketType ticketType;
+
     private boolean isAvailable;
     private Edge edge;
 
