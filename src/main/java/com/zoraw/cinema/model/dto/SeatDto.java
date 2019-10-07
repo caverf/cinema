@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class SeatDto {
+public class SeatDto implements Comparable<SeatDto>{
 
     @EqualsAndHashCode.Include
     private String row;
@@ -16,6 +16,11 @@ public class SeatDto {
     private int number;
 
     private boolean isAvailable;
-    private boolean isEdge;
+    private Edge edge;
 
+
+    @Override
+    public int compareTo(SeatDto seatDto) {
+        return this.number - seatDto.getNumber();
+    }
 }

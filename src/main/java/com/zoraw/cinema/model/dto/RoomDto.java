@@ -3,7 +3,8 @@ package com.zoraw.cinema.model.dto;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.Map;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -15,34 +16,46 @@ public class RoomDto {
     Set<SeatDto> seats;
 
     public boolean canReserveSeats(Set<SeatDto> seatsToReserve) {
-        if(seatsToReserve.isEmpty()) {
+        if (seatsToReserve.isEmpty()) {
             return false;
         }
 
-        Map<SeatDto, Boolean> tmpSeats = seats.stream()
-                .collect(Collectors.toMap(seat -> seat, SeatDto::isAvailable));
+        Set<SeatDto> seatsAfterReservation = new HashSet<>(seats);
 
-        for (SeatDto seat : tmpSeats.keySet()) {
+        for (SeatDto seat : seatsAfterReservation) {
             if (seatsToReserve.contains(seat)) {
-                tmpSeats.put(seat, false);
+                seat.setAvailable(false);
             }
         }
 
-        return tmpSeats.entrySet()
-                .stream()
-                .filter(seat -> seatsToReserve.stream()
-                        .anyMatch(reservedSeat -> seat.getKey().getRow().equals(reservedSeat.getRow())))
-                .filter(seat -> !seat.getKey().isEdge())
-                .filter(seat -> seat.getValue())
-                .allMatch(seat -> tmpSeats.get(SeatDto.builder()
-                        .row(seat.getKey().getRow())
-                        .number(seat.getKey().getNumber() - 1)
-                        .build())
-                        || tmpSeats.get(SeatDto.builder()
-                        .row(seat.getKey().getRow())
-                        .number(seat.getKey().getNumber() + 1)
-                        .build()));
+        Set<String> rowsWithReservedSeats = seatsToReserve.stream().map(SeatDto::getRow).collect(Collectors.toSet());
 
+        List<SeatDto> seatsInReservedRows = seatsAfterReservation
+                .stream()
+                .filter(seat -> rowsWithReservedSeats.contains(seat.getRow()))
+                .sorted()
+                .collect(Collectors.toList());
+
+
+        for (String row : rowsWithReservedSeats) {
+            int counter = 0;
+            for (SeatDto seat : seatsInReservedRows) {
+                if (seat.getRow().equals(row)) {
+                    if (!seat.isAvailable()) {
+                        if (counter == 1) {
+                            return false;
+                        }
+                    }
+                    if(seat.isAvailable()) {
+                        counter++;
+                    }
+                    if(seat.getEdge() == Edge.RIGHT || seat.getEdge() == Edge.LEFT_AND_RIGHT){
+                        counter = 0;
+                    }
+                }
+            }
+        }
+        return true;
     }
 
 }
