@@ -1,16 +1,16 @@
 package com.zoraw.cinema.rest;
 
-import com.zoraw.cinema.rest.validation.DateOrderValidation;
 import com.zoraw.cinema.model.dto.ScreeningBasicDto;
 import com.zoraw.cinema.model.dto.ScreeningDto;
 import com.zoraw.cinema.model.service.ScreeningService;
+import com.zoraw.cinema.rest.validation.DateOrderValidation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping("/screenings")
@@ -21,7 +21,7 @@ public class ScreeningRest {
     private final ScreeningService screeningService;
 
     @GetMapping()
-    public ResponseEntity<Set<ScreeningBasicDto>> getScreenings(
+    public ResponseEntity<List<ScreeningBasicDto>> getScreenings(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime from,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime to) {
 

@@ -9,18 +9,28 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 class ScreeningServiceImpl implements ScreeningService {
 
+    private static final Comparator<ScreeningBasicDto> SCREENING_COMPARATOR = Comparator.comparing(
+                    (ScreeningBasicDto screeningBasicDto) -> screeningBasicDto.getMovie().getTitle())
+                    .thenComparing(ScreeningBasicDto::getTime);
+
     private final ScreeningRepository screeningRepository;
     private final ScreeningMapper screeningMapper;
 
+
     @Override
-    public Set<ScreeningBasicDto> getScreenings(LocalDateTime from, LocalDateTime to) {
-        return screeningRepository.findByTimeBetween(from, to);
+    public List<ScreeningBasicDto> getScreenings(LocalDateTime from, LocalDateTime to) {
+        return screeningRepository.findByTimeBetween(from, to)
+                .stream()
+                .sorted(SCREENING_COMPARATOR)
+                .collect(Collectors.toList());
     }
 
     @Override
