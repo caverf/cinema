@@ -12,6 +12,8 @@ import com.zoraw.cinema.model.service.TicketCalculation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @RequiredArgsConstructor
 @Service
 class ReservationServiceImpl implements ReservationService {
@@ -21,28 +23,36 @@ class ReservationServiceImpl implements ReservationService {
     private final ScreeningMapper screeningMapper;
     private final TicketCalculation ticketCalculation;
 
-
     @Override
     public ReservationResponseDto create(ReservationDto reservationDto) {
+        String screeningId = reservationDto.getScreeningId();
+        ScreeningDto screeningDto = getScreeningDto(screeningId);
+
+        if (isReservationTooLate(screeningDto)) {
+            return ReservationResponseDto.createTooLateResponse();
+        }
+
         boolean saved = reservationCreationService.create(reservationDto);
 
         if (saved) {
             return ReservationResponseDto.builder()
                     .isSaved(true)
                     .amount(ticketCalculation.calculateTotalAmount(reservationDto))
-                    //todo: expiration date
+                    .expirationTime(screeningDto.getTime().minusMinutes(15))
                     .build();
         }
 
-        return ReservationResponseDto.builder()
-                .isSaved(false)
-                .screeningDto(getScreeningDto(reservationDto))
-                .build();
+        return ReservationResponseDto.createRowChangedResponse(getScreeningDto(screeningId));
     }
 
-    private ScreeningDto getScreeningDto(ReservationDto reservationDto) {
+    private boolean isReservationTooLate(ScreeningDto screeningDto) {
+        return LocalDateTime.now()
+                .isAfter(screeningDto.getTime().minusMinutes(15));
+    }
+
+    private ScreeningDto getScreeningDto(String screeningId) {
         return screeningMapper.toScreeningDto(
-                screeningRepository.findById(reservationDto.getScreeningId())
+                screeningRepository.findById(screeningId)
                         .orElseThrow(BusinessException::new));
     }
 
