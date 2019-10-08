@@ -1,5 +1,6 @@
 package com.zoraw.cinema.model.db.mongo.dao;
 
+import com.zoraw.cinema.model.dto.Edge;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,6 +16,6 @@ public class Seat {
     @EqualsAndHashCode.Include
     private String number;
 
-    private Boolean isAvailable;
-    private Boolean isEdge;
+    private boolean isAvailable;
+    private Edge edge;
 }

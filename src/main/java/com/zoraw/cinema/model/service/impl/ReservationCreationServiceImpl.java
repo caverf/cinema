@@ -51,7 +51,7 @@ public class ReservationCreationServiceImpl implements ReservationCreationServic
                 .stream()
                 .filter(seat -> seatsToReserve.stream().anyMatch(seatToReserve -> seat.getRow().equals(seatToReserve.getRow())
                         && seat.getNumber().equals(seatToReserve.getNumber())))
-                .forEach(seat -> seat.setIsAvailable(false));
+                .forEach(seat -> seat.setAvailable(false));
     }
 
     private RoomDto getScreeningRoom(Screening screening) {
