@@ -9,7 +9,7 @@ import java.util.Set;
 @Builder
 public class Room {
 
-    String name;
-    Set<Seat> seats;
+    private String name;
+    private Set<Seat> seats;
 
 }

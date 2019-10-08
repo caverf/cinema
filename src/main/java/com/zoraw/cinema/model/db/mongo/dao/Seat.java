@@ -16,6 +16,6 @@ public class Seat {
     @EqualsAndHashCode.Include
     private String number;
 
-    private boolean isAvailable;
+    private boolean available;
     private Edge edge;
 }

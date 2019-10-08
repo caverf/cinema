@@ -56,7 +56,7 @@ class RoomDtoTest extends Specification {
                 def seat = SeatDto.builder()
                         .row(row)
                         .number(i)
-                        .isAvailable(true)
+                        .available(true)
                         .build()
                 if (i == 1) {
                     seat.setEdge(Edge.LEFT)
@@ -81,18 +81,14 @@ class RoomDtoTest extends Specification {
                 def seat = SeatDto.builder()
                         .row(row)
                         .number(i)
-                        .isAvailable(true)
+                        .available(true)
                         .build()
                 switch (i) {
                     case 1:
-                        seat.setEdge(Edge.LEFT)
-                        break
-                    case 2:
-                        seat.setEdge(Edge.RIGHT)
-                        break
                     case 3:
                         seat.setEdge(Edge.LEFT)
                         break
+                    case 2:
                     case 5:
                         seat.setEdge(Edge.RIGHT)
                         break

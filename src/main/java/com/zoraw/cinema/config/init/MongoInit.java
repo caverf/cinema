@@ -45,7 +45,7 @@ public class MongoInit implements CommandLineRunner {
                         .movie(Movie.builder()
                                 .title(movie)
                                 .build())
-                        .time(LocalDateTime.of(2019, Month.JANUARY, getRandomDayOfMonth(random, roomIndex), 20, 0))
+                        .time(LocalDateTime.of(2020, Month.JANUARY, getRandomDayOfMonth(random, roomIndex), 20, 0))
                         .room(Room.builder()
                                 .name(String.valueOf(roomIndex))
                                 .seats(seatArrangement)
@@ -69,7 +69,7 @@ public class MongoInit implements CommandLineRunner {
                 Seat seat = Seat.builder()
                         .row(row)
                         .number(String.valueOf(i))
-                        .isAvailable(true)
+                        .available(true)
                         .build();
                 if (i == 1) {
                     seat.setEdge(Edge.LEFT);

@@ -17,7 +17,7 @@ public class SeatDto implements Comparable<SeatDto>{
 
     private TicketType ticketType;
 
-    private boolean isAvailable;
+    private boolean available;
     private Edge edge;
 
 
