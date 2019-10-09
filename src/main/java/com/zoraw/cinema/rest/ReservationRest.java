@@ -21,7 +21,6 @@ public class ReservationRest {
 
     @PostMapping
     public ResponseEntity<ReservationResponseDto> createReservation(@Valid @RequestBody ReservationDto reservationDto) {
-        //todo: validate reservationDto
 
         return ResponseEntity.ok(reservationService.create(reservationDto));
     }

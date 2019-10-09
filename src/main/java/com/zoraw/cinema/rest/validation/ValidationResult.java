@@ -1,14 +1,14 @@
-package com.zoraw.cinema.config.aop;
+package com.zoraw.cinema.rest.validation;
 
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
-class ValidationResult {
+public class ValidationResult {
 
     private String fieldName;
     private String fieldValue;
-    private String fieldMessage;
+    private String message;
 
 }

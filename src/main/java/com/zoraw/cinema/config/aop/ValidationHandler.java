@@ -1,5 +1,6 @@
 package com.zoraw.cinema.config.aop;
 
+import com.zoraw.cinema.rest.validation.ValidationResult;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +40,7 @@ public class ValidationHandler extends ResponseEntityExceptionHandler {
                 .map(error -> ValidationResult.builder()
                         .fieldName(error.getField())
                         .fieldValue(error.getRejectedValue().toString())
-                        .fieldMessage(error.getDefaultMessage())
+                        .message(error.getDefaultMessage())
                         .build())
                 .collect(Collectors.toList());
     }
