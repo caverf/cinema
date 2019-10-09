@@ -1,13 +1,13 @@
 package com.zoraw.cinema.model.db.mongo.mapper;
 
-import com.zoraw.cinema.model.db.mongo.dao.Seat;
-import com.zoraw.cinema.model.dto.SeatDto;
+import com.zoraw.cinema.model.db.mongo.dao.SeatDao;
+import com.zoraw.cinema.model.dto.Seat;
 import org.mapstruct.Mapper;
 
 import java.util.Set;
 
 @Mapper(componentModel = "spring")
 public interface SeatMapper {
-    Set<SeatDto> toSeatDto(Set<Seat> screening);
+    Set<Seat> toSeatDto(Set<SeatDao> screening);
 
 }

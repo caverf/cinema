@@ -10,12 +10,12 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 @Document
-public class Screening {
+public class ScreeningDao {
 
     private String id;
-    private Movie movie;
+    private MovieDao movie;
     private LocalDateTime time;
-    private Room room;
+    private RoomDao room;
 
     @Version
     private Long version;

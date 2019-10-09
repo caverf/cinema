@@ -7,9 +7,9 @@ import java.util.Set;
 
 @Data
 @Builder
-public class Room {
+public class RoomDao {
 
     private String name;
-    private Set<Seat> seats;
+    private Set<SeatDao> seats;
 
 }

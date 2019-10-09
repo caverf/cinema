@@ -2,12 +2,12 @@ package com.zoraw.cinema.model.service.impl;
 
 import com.zoraw.cinema.model.db.mongo.ReservationRepository;
 import com.zoraw.cinema.model.db.mongo.ScreeningRepository;
-import com.zoraw.cinema.model.db.mongo.dao.Screening;
+import com.zoraw.cinema.model.db.mongo.dao.ScreeningDao;
 import com.zoraw.cinema.model.db.mongo.mapper.ReservationMapper;
 import com.zoraw.cinema.model.db.mongo.mapper.ScreeningMapper;
-import com.zoraw.cinema.model.dto.ReservationDto;
-import com.zoraw.cinema.model.dto.RoomDto;
-import com.zoraw.cinema.model.dto.SeatDto;
+import com.zoraw.cinema.model.dto.Reservation;
+import com.zoraw.cinema.model.dto.Room;
+import com.zoraw.cinema.model.dto.Seat;
 import com.zoraw.cinema.model.exception.BusinessException;
 import com.zoraw.cinema.model.service.ReservationCreationService;
 import lombok.RequiredArgsConstructor;
@@ -26,44 +26,44 @@ public class ReservationCreationServiceImpl implements ReservationCreationServic
     private final ScreeningMapper screeningMapper;
 
     @Override
-    public boolean create(ReservationDto reservationDto) {
+    public boolean create(Reservation reservation) {
 
-        Screening screening = getScreening(reservationDto.getScreeningId());
-        RoomDto roomDto = getScreeningRoom(screening);
+        ScreeningDao screeningDao = getScreening(reservation.getScreeningId());
+        Room room = getScreeningRoom(screeningDao);
 
-        Set<SeatDto> seatsToReserve = reservationDto.getSeats();
-        if (canReserve(roomDto, seatsToReserve)) {
-            updateSeats(screening, seatsToReserve);
+        Set<Seat> seatsToReserve = reservation.getSeats();
+        if (canReserve(room, seatsToReserve)) {
+            updateSeats(screeningDao, seatsToReserve);
             try {
-                screeningRepository.save(screening);
+                screeningRepository.save(screeningDao);
             } catch (OptimisticLockingFailureException ex) {
-                this.create(reservationDto);
+                this.create(reservation);
             }
-            reservationRepository.save(reservationMapper.toReservation(reservationDto));
+            reservationRepository.save(reservationMapper.toReservation(reservation));
             return true;
         }
 
         return false;
     }
 
-    private void updateSeats(Screening screening, Set<SeatDto> seatsToReserve) {
-        screening.getRoom().getSeats()
+    private void updateSeats(ScreeningDao screeningDao, Set<Seat> seatsToReserve) {
+        screeningDao.getRoom().getSeats()
                 .stream()
                 .filter(seat -> seatsToReserve.stream().anyMatch(seatToReserve -> seat.getRow().equals(seatToReserve.getRow())
                         && seat.getNumber().equals(seatToReserve.getNumber()))) //todo: na contains
                 .forEach(seat -> seat.setAvailable(false));
     }
 
-    private RoomDto getScreeningRoom(Screening screening) {
-        return screeningMapper.toScreeningDto(screening).getRoom();
+    private Room getScreeningRoom(ScreeningDao screeningDao) {
+        return screeningMapper.toScreeningDto(screeningDao).getRoom();
     }
 
-    private Screening getScreening(String screeningId) {
+    private ScreeningDao getScreening(String screeningId) {
         return screeningRepository.findById(screeningId)
                 .orElseThrow(BusinessException::new);
     }
 
-    private boolean canReserve(RoomDto room, Set<SeatDto> seatsToReserve) {
+    private boolean canReserve(Room room, Set<Seat> seatsToReserve) {
         return room.canReserveSeats(seatsToReserve);
     }
 }

@@ -1,10 +1,10 @@
 package com.zoraw.cinema.model.service;
 
-import com.zoraw.cinema.model.dto.ReservationDto;
-import com.zoraw.cinema.model.dto.ReservationResponseDto;
+import com.zoraw.cinema.model.dto.Reservation;
+import com.zoraw.cinema.model.dto.ReservationResponse;
 
 public interface ReservationService {
 
-    ReservationResponseDto create(ReservationDto reservationDto);
+    ReservationResponse create(Reservation reservation);
 
 }

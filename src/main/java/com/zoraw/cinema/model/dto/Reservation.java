@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Data
 @Builder
-public class ReservationDto {
+public class Reservation {
 
     @Size(min = 3, max = 50)
     @NotBlank
@@ -28,5 +28,5 @@ public class ReservationDto {
     private String screeningId;
 
     @Size(min = 1)
-    private Set<SeatDto> seats;
+    private Set<Seat> seats;
 }

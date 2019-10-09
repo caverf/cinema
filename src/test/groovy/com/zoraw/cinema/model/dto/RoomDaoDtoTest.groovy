@@ -3,12 +3,12 @@ package com.zoraw.cinema.model.dto
 import spock.lang.Specification
 import spock.lang.Unroll
 
-class RoomDtoTest extends Specification {
+class RoomDaoDtoTest extends Specification {
 
     @Unroll
     def "should check seat validation for standard empty room"() {
         given: "empty 4x5 room"
-        def roomDto = RoomDto.builder()
+        def roomDto = Room.builder()
                 .seats(getSeats())
                 .build()
 
@@ -27,7 +27,7 @@ class RoomDtoTest extends Specification {
     @Unroll
     def "should check seat validation for room with corridor"() {
         given: "empty 4x5 room with corridor between 2 and 3 column "
-        def roomDto = RoomDto.builder()
+        def roomDto = Room.builder()
                 .seats(getSeatsWithCorridor())
                 .build()
 
@@ -42,18 +42,18 @@ class RoomDtoTest extends Specification {
         [seat('A', 5)] as Set               | true
     }
 
-    private SeatDto seat(String row, int number) {
-        SeatDto.builder().row(row).number(number).build()
+    private Seat seat(String row, int number) {
+        Seat.builder().row(row).number(number).build()
     }
 
-    private Set<SeatDto> getSeats() {
+    private Set<Seat> getSeats() {
         def rows = ['A', 'B', 'C', 'D']
 
-        def seats = new HashSet<SeatDto>()
+        def seats = new HashSet<Seat>()
 
         for (int i = 1; i < 6; i++) {
             for (def row : rows) {
-                def seat = SeatDto.builder()
+                def seat = Seat.builder()
                         .row(row)
                         .number(i)
                         .available(true)
@@ -71,14 +71,14 @@ class RoomDtoTest extends Specification {
         seats
     }
 
-    private Set<SeatDto> getSeatsWithCorridor() {
+    private Set<Seat> getSeatsWithCorridor() {
         def rows = ['A', 'B', 'C', 'D']
 
-        def seats = new HashSet<SeatDto>()
+        def seats = new HashSet<Seat>()
 
         for (int i = 1; i < 6; i++) {
             for (def row : rows) {
-                def seat = SeatDto.builder()
+                def seat = Seat.builder()
                         .row(row)
                         .number(i)
                         .available(true)

@@ -9,11 +9,11 @@ import java.util.Set;
 @Data
 @Builder
 @Document
-public class Reservation {
+public class ReservationDao {
 
     private String id;
     private String firstName;
     private String lastName;
     private String screeningId;
-    private Set<Seat> seats;
+    private Set<SeatDao> seats;
 }

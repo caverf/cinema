@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Seat {
+public class SeatDao {
 
     @EqualsAndHashCode.Include
     private String row;

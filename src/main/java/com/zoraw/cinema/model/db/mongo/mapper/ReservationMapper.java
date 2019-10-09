@@ -1,10 +1,10 @@
 package com.zoraw.cinema.model.db.mongo.mapper;
 
-import com.zoraw.cinema.model.db.mongo.dao.Reservation;
-import com.zoraw.cinema.model.dto.ReservationDto;
+import com.zoraw.cinema.model.db.mongo.dao.ReservationDao;
+import com.zoraw.cinema.model.dto.Reservation;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface ReservationMapper {
-    Reservation toReservation(ReservationDto reservationDto);
+    ReservationDao toReservation(Reservation reservation);
 }

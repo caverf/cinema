@@ -10,27 +10,27 @@ import java.util.stream.Collectors;
 
 @Data
 @Builder
-public class RoomDto {
+public class Room {
 
     String name;
-    Set<SeatDto> seats;
+    Set<Seat> seats;
 
-    public boolean canReserveSeats(Set<SeatDto> seatsToReserve) {
+    public boolean canReserveSeats(Set<Seat> seatsToReserve) {
         if (seatsToReserve.isEmpty()) {
             return false;
         }
 
-        Set<SeatDto> seatsAfterReservation = new HashSet<>(seats);
+        Set<Seat> seatsAfterReservation = new HashSet<>(seats);
 
-        for (SeatDto seat : seatsAfterReservation) {
+        for (Seat seat : seatsAfterReservation) {
             if (seatsToReserve.contains(seat)) {
                 seat.setAvailable(false);
             }
         }
 
-        Set<String> rowsWithReservedSeats = seatsToReserve.stream().map(SeatDto::getRow).collect(Collectors.toSet());
+        Set<String> rowsWithReservedSeats = seatsToReserve.stream().map(Seat::getRow).collect(Collectors.toSet());
 
-        List<SeatDto> seatsInReservedRows = seatsAfterReservation
+        List<Seat> seatsInReservedRows = seatsAfterReservation
                 .stream()
                 .filter(seat -> rowsWithReservedSeats.contains(seat.getRow()))
                 .sorted()
@@ -39,7 +39,7 @@ public class RoomDto {
 
         for (String row : rowsWithReservedSeats) {
             int counter = 0;
-            for (SeatDto seat : seatsInReservedRows) {
+            for (Seat seat : seatsInReservedRows) {
                 if (seat.getRow().equals(row)) {
                     if (!seat.isAvailable()) {
                         if (counter == 1) {

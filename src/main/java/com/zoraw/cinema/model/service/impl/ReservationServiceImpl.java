@@ -2,9 +2,9 @@ package com.zoraw.cinema.model.service.impl;
 
 import com.zoraw.cinema.model.db.mongo.ScreeningRepository;
 import com.zoraw.cinema.model.db.mongo.mapper.ScreeningMapper;
-import com.zoraw.cinema.model.dto.ReservationDto;
-import com.zoraw.cinema.model.dto.ReservationResponseDto;
-import com.zoraw.cinema.model.dto.ScreeningDto;
+import com.zoraw.cinema.model.dto.Reservation;
+import com.zoraw.cinema.model.dto.ReservationResponse;
+import com.zoraw.cinema.model.dto.Screening;
 import com.zoraw.cinema.model.exception.BusinessException;
 import com.zoraw.cinema.model.service.ReservationCreationService;
 import com.zoraw.cinema.model.service.ReservationService;
@@ -24,33 +24,33 @@ class ReservationServiceImpl implements ReservationService {
     private final TicketCalculation ticketCalculation;
 
     @Override
-    public ReservationResponseDto create(ReservationDto reservationDto) {
-        String screeningId = reservationDto.getScreeningId();
-        ScreeningDto screeningDto = getScreeningDto(screeningId);
+    public ReservationResponse create(Reservation reservation) {
+        String screeningId = reservation.getScreeningId();
+        Screening screening = getScreeningDto(screeningId);
 
-        if (isReservationTooLate(screeningDto)) {
-            return ReservationResponseDto.createTooLateResponse();
+        if (isReservationTooLate(screening)) {
+            return ReservationResponse.createTooLateResponse();
         }
 
-        boolean saved = reservationCreationService.create(reservationDto);
+        boolean saved = reservationCreationService.create(reservation);
 
         if (saved) {
-            return ReservationResponseDto.builder()
+            return ReservationResponse.builder()
                     .isSaved(true)
-                    .amount(ticketCalculation.calculateTotalAmount(reservationDto))
-                    .expirationTime(screeningDto.getTime().minusMinutes(15))
+                    .amount(ticketCalculation.calculateTotalAmount(reservation))
+                    .expirationTime(screening.getTime().minusMinutes(15))
                     .build();
         }
 
-        return ReservationResponseDto.createRowChangedResponse(getScreeningDto(screeningId));
+        return ReservationResponse.createRowChangedResponse(getScreeningDto(screeningId));
     }
 
-    private boolean isReservationTooLate(ScreeningDto screeningDto) {
+    private boolean isReservationTooLate(Screening screening) {
         return LocalDateTime.now()
-                .isAfter(screeningDto.getTime().minusMinutes(15));
+                .isAfter(screening.getTime().minusMinutes(15));
     }
 
-    private ScreeningDto getScreeningDto(String screeningId) {
+    private Screening getScreeningDto(String screeningId) {
         return screeningMapper.toScreeningDto(
                 screeningRepository.findById(screeningId)
                         .orElseThrow(BusinessException::new));

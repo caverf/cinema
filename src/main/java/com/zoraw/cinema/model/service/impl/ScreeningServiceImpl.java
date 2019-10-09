@@ -2,8 +2,8 @@ package com.zoraw.cinema.model.service.impl;
 
 import com.zoraw.cinema.model.db.mongo.ScreeningRepository;
 import com.zoraw.cinema.model.db.mongo.mapper.ScreeningMapper;
-import com.zoraw.cinema.model.dto.ScreeningBasicDto;
-import com.zoraw.cinema.model.dto.ScreeningDto;
+import com.zoraw.cinema.model.dto.Screening;
+import com.zoraw.cinema.model.dto.ScreeningBasic;
 import com.zoraw.cinema.model.service.ScreeningService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,16 +17,16 @@ import java.util.stream.Collectors;
 @Service
 class ScreeningServiceImpl implements ScreeningService {
 
-    private static final Comparator<ScreeningBasicDto> SCREENING_COMPARATOR = Comparator.comparing(
-                    (ScreeningBasicDto screeningBasicDto) -> screeningBasicDto.getMovie().getTitle())
-                    .thenComparing(ScreeningBasicDto::getTime);
+    private static final Comparator<ScreeningBasic> SCREENING_COMPARATOR = Comparator.comparing(
+                    (ScreeningBasic screeningBasic) -> screeningBasic.getMovie().getTitle())
+                    .thenComparing(ScreeningBasic::getTime);
 
     private final ScreeningRepository screeningRepository;
     private final ScreeningMapper screeningMapper;
 
 
     @Override
-    public List<ScreeningBasicDto> getScreenings(LocalDateTime from, LocalDateTime to) {
+    public List<ScreeningBasic> getScreenings(LocalDateTime from, LocalDateTime to) {
         return screeningRepository.findByTimeBetween(from, to)
                 .stream()
                 .sorted(SCREENING_COMPARATOR)
@@ -34,7 +34,7 @@ class ScreeningServiceImpl implements ScreeningService {
     }
 
     @Override
-    public ScreeningDto getScreening(String screeningId) {
+    public Screening getScreening(String screeningId) {
         return screeningRepository.findById(screeningId)
                 .map(screeningMapper::toScreeningDto)
                 .orElse(null);

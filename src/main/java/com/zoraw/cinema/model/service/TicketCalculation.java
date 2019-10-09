@@ -1,10 +1,10 @@
 package com.zoraw.cinema.model.service;
 
-import com.zoraw.cinema.model.dto.ReservationDto;
+import com.zoraw.cinema.model.dto.Reservation;
 
 import java.math.BigDecimal;
 
 public interface TicketCalculation {
 
-    BigDecimal calculateTotalAmount(ReservationDto reservation);
+    BigDecimal calculateTotalAmount(Reservation reservation);
 }

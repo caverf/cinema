@@ -8,29 +8,29 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
-public class ReservationResponseDto {
+public class ReservationResponse {
 
     private static final String TOO_LATE_DESCRIPTION = "TOO_LATE_DESCRIPTION";
     private static final String ANOTHER_USER_CHANGED_THE_SAME_ROW_DESCRIPTION = "ANOTHER_USER_CHANGED_THE_SAME_ROW_DESCRIPTION";
 
     private boolean isSaved;
     private String failureDescription;
-    private ScreeningDto screeningDto;
+    private Screening screening;
 
     private BigDecimal amount;
     private LocalDateTime expirationTime;
 
-    public static ReservationResponseDto createTooLateResponse() {
-        return ReservationResponseDto.builder()
+    public static ReservationResponse createTooLateResponse() {
+        return ReservationResponse.builder()
                 .isSaved(false)
                 .failureDescription(TOO_LATE_DESCRIPTION)
                 .build();
     }
 
-    public static ReservationResponseDto createRowChangedResponse(ScreeningDto screeningDto) {
-        return ReservationResponseDto.builder()
+    public static ReservationResponse createRowChangedResponse(Screening screening) {
+        return ReservationResponse.builder()
                 .isSaved(false)
-                .screeningDto(screeningDto)
+                .screening(screening)
                 .failureDescription(ANOTHER_USER_CHANGED_THE_SAME_ROW_DESCRIPTION)
                 .build();
     }

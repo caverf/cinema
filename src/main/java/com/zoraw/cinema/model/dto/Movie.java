@@ -1,12 +1,11 @@
-package com.zoraw.cinema.model.db.mongo.dao;
+package com.zoraw.cinema.model.dto;
 
 import lombok.Builder;
 import lombok.Data;
 
-@Builder
 @Data
+@Builder
 public class Movie {
 
     private String title;
-    private String description;
 }
