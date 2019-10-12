@@ -6,7 +6,6 @@ import com.zoraw.cinema.model.db.mongo.dao.ScreeningDao;
 import com.zoraw.cinema.model.db.mongo.mapper.ReservationMapper;
 import com.zoraw.cinema.model.db.mongo.mapper.ScreeningMapper;
 import com.zoraw.cinema.model.domain.Reservation;
-import com.zoraw.cinema.model.domain.Room;
 import com.zoraw.cinema.model.domain.Screening;
 import com.zoraw.cinema.model.domain.Seat;
 import com.zoraw.cinema.model.exception.BusinessException;
@@ -33,13 +32,11 @@ public class ReservationCreationServiceImpl implements ReservationCreationServic
         Screening screening = screeningMapper.toScreening(screeningDao);
 
         Set<Seat> seatsToReserve = reservation.getSeats();
-        if (canReserve(screening.getRoom(), seatsToReserve)) {
+        if (screening.getRoom().canReserveSeats(seatsToReserve)) {
             updateSeats(screening, seatsToReserve);
-            ScreeningDao screeningDaoAfterUpdate = screeningMapper.toScreeningDao(screening);
-            screeningDaoAfterUpdate.setVersion(screeningDao.getVersion());
 
             try {
-                screeningRepository.save(screeningDaoAfterUpdate);
+                screeningRepository.save(getUpdatedScreening(screening, screeningDao.getVersion()));
             } catch (OptimisticLockingFailureException ex) {
                 this.create(reservation);
             }
@@ -48,6 +45,12 @@ public class ReservationCreationServiceImpl implements ReservationCreationServic
         }
 
         return false;
+    }
+
+    private ScreeningDao getUpdatedScreening(Screening screening, Long version) {
+        ScreeningDao screeningDaoAfterUpdate = screeningMapper.toScreeningDao(screening);
+        screeningDaoAfterUpdate.setVersion(version);
+        return screeningDaoAfterUpdate;
     }
 
     private void updateSeats(Screening screening, Set<Seat> seatsToReserve) {
@@ -60,9 +63,5 @@ public class ReservationCreationServiceImpl implements ReservationCreationServic
     private ScreeningDao getScreening(String screeningId) {
         return screeningRepository.findById(screeningId)
                 .orElseThrow(BusinessException::new);
-    }
-
-    private boolean canReserve(Room room, Set<Seat> seatsToReserve) {
-        return room.canReserveSeats(seatsToReserve);
     }
 }
