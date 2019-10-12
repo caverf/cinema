@@ -7,8 +7,8 @@ import lombok.Data;
 @Builder
 public class ValidationResult {
 
+    private String message;
     private String fieldName;
     private String fieldValue;
-    private String message;
 
 }
