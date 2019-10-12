@@ -5,7 +5,7 @@ import com.zoraw.cinema.model.db.mongo.mapper.ScreeningMapper;
 import com.zoraw.cinema.model.domain.Reservation;
 import com.zoraw.cinema.model.domain.ReservationResponse;
 import com.zoraw.cinema.model.domain.Screening;
-import com.zoraw.cinema.model.exception.BusinessException;
+import com.zoraw.cinema.model.exception.ScreeningNotFoundException;
 import com.zoraw.cinema.model.service.ReservationCreationService;
 import com.zoraw.cinema.model.service.ReservationService;
 import com.zoraw.cinema.model.service.TicketCalculation;
@@ -57,7 +57,7 @@ class ReservationServiceImpl implements ReservationService {
     private Screening getScreening(String screeningId) {
         return screeningMapper.toScreening(
                 screeningRepository.findById(screeningId)
-                        .orElseThrow(BusinessException::new));
+                        .orElseThrow(() -> new ScreeningNotFoundException(screeningId)));
     }
 
 

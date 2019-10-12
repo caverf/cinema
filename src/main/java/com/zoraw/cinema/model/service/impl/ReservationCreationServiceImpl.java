@@ -8,7 +8,7 @@ import com.zoraw.cinema.model.db.mongo.mapper.ScreeningMapper;
 import com.zoraw.cinema.model.domain.Reservation;
 import com.zoraw.cinema.model.domain.Screening;
 import com.zoraw.cinema.model.domain.Seat;
-import com.zoraw.cinema.model.exception.BusinessException;
+import com.zoraw.cinema.model.exception.ScreeningNotFoundException;
 import com.zoraw.cinema.model.service.ReservationCreationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.OptimisticLockingFailureException;
@@ -62,6 +62,7 @@ public class ReservationCreationServiceImpl implements ReservationCreationServic
 
     private ScreeningDao getScreening(String screeningId) {
         return screeningRepository.findById(screeningId)
-                .orElseThrow(BusinessException::new);
+                .orElseThrow(() -> new ScreeningNotFoundException(screeningId));
+
     }
 }

@@ -4,6 +4,7 @@ import com.zoraw.cinema.model.db.mongo.ScreeningRepository;
 import com.zoraw.cinema.model.db.mongo.mapper.ScreeningMapper;
 import com.zoraw.cinema.model.domain.Movie;
 import com.zoraw.cinema.model.domain.Screening;
+import com.zoraw.cinema.model.exception.ScreeningNotFoundException;
 import com.zoraw.cinema.model.service.ScreeningService;
 import com.zoraw.cinema.model.service.dto.MovieWithScreeningsDto;
 import com.zoraw.cinema.model.service.dto.ScreeningDto;
@@ -51,6 +52,6 @@ class ScreeningServiceImpl implements ScreeningService {
     public Screening getScreening(String screeningId) {
         return screeningRepository.findById(screeningId)
                 .map(screeningMapper::toScreening)
-                .orElse(null);
+                .orElseThrow(() -> new ScreeningNotFoundException(screeningId));
     }
 }
