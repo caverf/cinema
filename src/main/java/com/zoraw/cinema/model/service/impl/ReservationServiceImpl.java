@@ -10,6 +10,7 @@ import com.zoraw.cinema.model.service.ReservationCreationService;
 import com.zoraw.cinema.model.service.ReservationService;
 import com.zoraw.cinema.model.service.TicketCalculation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -17,6 +18,9 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 @Service
 class ReservationServiceImpl implements ReservationService {
+
+    @Value("${reservation.minimumMinutesBeforeScreening}")
+    private int minimumMinutesBeforeScreening;
 
     private final ReservationCreationService reservationCreationService;
     private final ScreeningRepository screeningRepository;
@@ -38,7 +42,7 @@ class ReservationServiceImpl implements ReservationService {
             return ReservationResponse.builder()
                     .isSaved(true)
                     .amount(ticketCalculation.calculateTotalAmount(reservation))
-                    .expirationTime(screening.getTime().minusMinutes(15))
+                    .expirationTime(screening.getTime().minusMinutes(minimumMinutesBeforeScreening))
                     .build();
         }
 
@@ -47,7 +51,7 @@ class ReservationServiceImpl implements ReservationService {
 
     private boolean isReservationTooLate(Screening screening) {
         return LocalDateTime.now()
-                .isAfter(screening.getTime().minusMinutes(15));
+                .isAfter(screening.getTime().minusMinutes(minimumMinutesBeforeScreening));
     }
 
     private Screening getScreening(String screeningId) {

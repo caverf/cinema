@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @ConfigurationProperties(prefix="ticket")
-public class TicketConfiguration {
+public class TicketProperties {
 
     private BigDecimal adult;
     private BigDecimal student;
