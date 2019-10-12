@@ -50,7 +50,7 @@ class ScreeningServiceImpl implements ScreeningService {
     @Override
     public Screening getScreening(String screeningId) {
         return screeningRepository.findById(screeningId)
-                .map(screeningMapper::toScreeningDto)
+                .map(screeningMapper::toScreening)
                 .orElse(null);
     }
 }

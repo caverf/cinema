@@ -6,5 +6,7 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface ScreeningMapper {
-    Screening toScreeningDto(ScreeningDao screeningDao);
+    Screening toScreening(ScreeningDao screeningDao);
+    ScreeningDao toScreeningDao(Screening screening);
+
 }

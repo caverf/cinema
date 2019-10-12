@@ -26,7 +26,7 @@ class ReservationServiceImpl implements ReservationService {
     @Override
     public ReservationResponse create(Reservation reservation) {
         String screeningId = reservation.getScreeningId();
-        Screening screening = getScreeningDto(screeningId);
+        Screening screening = getScreening(screeningId);
 
         if (isReservationTooLate(screening)) {
             return ReservationResponse.createTooLateResponse();
@@ -42,7 +42,7 @@ class ReservationServiceImpl implements ReservationService {
                     .build();
         }
 
-        return ReservationResponse.createRowChangedResponse(getScreeningDto(screeningId));
+        return ReservationResponse.createRowChangedResponse(getScreening(screeningId));
     }
 
     private boolean isReservationTooLate(Screening screening) {
@@ -50,8 +50,8 @@ class ReservationServiceImpl implements ReservationService {
                 .isAfter(screening.getTime().minusMinutes(15));
     }
 
-    private Screening getScreeningDto(String screeningId) {
-        return screeningMapper.toScreeningDto(
+    private Screening getScreening(String screeningId) {
+        return screeningMapper.toScreening(
                 screeningRepository.findById(screeningId)
                         .orElseThrow(BusinessException::new));
     }

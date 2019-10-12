@@ -7,6 +7,7 @@ import com.zoraw.cinema.model.db.mongo.mapper.ReservationMapper;
 import com.zoraw.cinema.model.db.mongo.mapper.ScreeningMapper;
 import com.zoraw.cinema.model.domain.Reservation;
 import com.zoraw.cinema.model.domain.Room;
+import com.zoraw.cinema.model.domain.Screening;
 import com.zoraw.cinema.model.domain.Seat;
 import com.zoraw.cinema.model.exception.BusinessException;
 import com.zoraw.cinema.model.service.ReservationCreationService;
@@ -29,13 +30,15 @@ public class ReservationCreationServiceImpl implements ReservationCreationServic
     public boolean create(Reservation reservation) {
 
         ScreeningDao screeningDao = getScreening(reservation.getScreeningId());
-        Room room = getScreeningRoom(screeningDao);
+        Screening screening = screeningMapper.toScreening(screeningDao);
 
         Set<Seat> seatsToReserve = reservation.getSeats();
-        if (canReserve(room, seatsToReserve)) {
-            updateSeats(screeningDao, seatsToReserve);
+        if (canReserve(screening.getRoom(), seatsToReserve)) {
+            updateSeats(screening, seatsToReserve);
             try {
-                screeningRepository.save(screeningDao);
+                ScreeningDao screeningDaoAfterUpdate = screeningMapper.toScreeningDao(screening);
+                screeningDaoAfterUpdate.setVersion(screeningDao.getVersion());
+                screeningRepository.save(screeningDaoAfterUpdate);
             } catch (OptimisticLockingFailureException ex) {
                 this.create(reservation);
             }
@@ -46,16 +49,11 @@ public class ReservationCreationServiceImpl implements ReservationCreationServic
         return false;
     }
 
-    private void updateSeats(ScreeningDao screeningDao, Set<Seat> seatsToReserve) {
-        screeningDao.getRoom().getSeats()
+    private void updateSeats(Screening screening, Set<Seat> seatsToReserve) {
+        screening.getRoom().getSeats()
                 .stream()
-                .filter(seat -> seatsToReserve.stream().anyMatch(seatToReserve -> seat.getRow().equals(seatToReserve.getRow())
-                        && seat.getNumber().equals(seatToReserve.getNumber()))) //todo: na contains
+                .filter(seatsToReserve::contains)
                 .forEach(seat -> seat.setAvailable(false));
-    }
-
-    private Room getScreeningRoom(ScreeningDao screeningDao) {
-        return screeningMapper.toScreeningDto(screeningDao).getRoom();
     }
 
     private ScreeningDao getScreening(String screeningId) {
