@@ -1,7 +1,7 @@
 package com.zoraw.cinema.model.db.mongo.mapper;
 
 import com.zoraw.cinema.model.db.mongo.dao.ScreeningDao;
-import com.zoraw.cinema.model.dto.Screening;
+import com.zoraw.cinema.model.domain.Screening;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

@@ -1,6 +1,6 @@
 package com.zoraw.cinema.model.service;
 
-import com.zoraw.cinema.model.dto.Screening;
+import com.zoraw.cinema.model.domain.Screening;
 import com.zoraw.cinema.model.service.dto.MovieWithScreeningsDto;
 
 import java.time.LocalDateTime;

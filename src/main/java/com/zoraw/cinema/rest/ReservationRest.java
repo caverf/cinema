@@ -1,7 +1,7 @@
 package com.zoraw.cinema.rest;
 
-import com.zoraw.cinema.model.dto.Reservation;
-import com.zoraw.cinema.model.dto.ReservationResponse;
+import com.zoraw.cinema.model.domain.Reservation;
+import com.zoraw.cinema.model.domain.ReservationResponse;
 import com.zoraw.cinema.model.service.ReservationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

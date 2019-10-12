@@ -1,8 +1,8 @@
 package com.zoraw.cinema.model.service.impl;
 
-import com.zoraw.cinema.model.dto.Reservation;
-import com.zoraw.cinema.model.dto.Seat;
-import com.zoraw.cinema.model.dto.TicketType;
+import com.zoraw.cinema.model.domain.Reservation;
+import com.zoraw.cinema.model.domain.Seat;
+import com.zoraw.cinema.model.domain.TicketType;
 import com.zoraw.cinema.model.service.TicketCalculation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

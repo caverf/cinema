@@ -1,6 +1,6 @@
 package com.zoraw.cinema.model.service;
 
-import com.zoraw.cinema.model.dto.Reservation;
+import com.zoraw.cinema.model.domain.Reservation;
 
 import java.math.BigDecimal;
 

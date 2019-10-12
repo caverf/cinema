@@ -1,6 +1,6 @@
 package com.zoraw.cinema.model.db.mongo.dao;
 
-import com.zoraw.cinema.model.dto.Edge;
+import com.zoraw.cinema.model.domain.Edge;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

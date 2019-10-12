@@ -1,4 +1,4 @@
-package com.zoraw.cinema.model.dto;
+package com.zoraw.cinema.model.domain;
 
 import com.zoraw.cinema.rest.validation.LastName;
 import com.zoraw.cinema.rest.validation.Name;

@@ -2,9 +2,9 @@ package com.zoraw.cinema.model.service.impl;
 
 import com.zoraw.cinema.model.db.mongo.ScreeningRepository;
 import com.zoraw.cinema.model.db.mongo.mapper.ScreeningMapper;
-import com.zoraw.cinema.model.dto.Reservation;
-import com.zoraw.cinema.model.dto.ReservationResponse;
-import com.zoraw.cinema.model.dto.Screening;
+import com.zoraw.cinema.model.domain.Reservation;
+import com.zoraw.cinema.model.domain.ReservationResponse;
+import com.zoraw.cinema.model.domain.Screening;
 import com.zoraw.cinema.model.exception.BusinessException;
 import com.zoraw.cinema.model.service.ReservationCreationService;
 import com.zoraw.cinema.model.service.ReservationService;

@@ -5,7 +5,7 @@ import com.zoraw.cinema.model.db.mongo.dao.MovieDao;
 import com.zoraw.cinema.model.db.mongo.dao.RoomDao;
 import com.zoraw.cinema.model.db.mongo.dao.ScreeningDao;
 import com.zoraw.cinema.model.db.mongo.dao.SeatDao;
-import com.zoraw.cinema.model.dto.Edge;
+import com.zoraw.cinema.model.domain.Edge;
 import com.zoraw.cinema.util.RandomGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;

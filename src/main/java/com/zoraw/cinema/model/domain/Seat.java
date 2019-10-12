@@ -1,4 +1,4 @@
-package com.zoraw.cinema.model.dto;
+package com.zoraw.cinema.model.domain;
 
 import lombok.Builder;
 import lombok.Data;

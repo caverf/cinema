@@ -1,7 +1,7 @@
 package com.zoraw.cinema.model.service.dto;
 
 
-import com.zoraw.cinema.model.dto.Movie;
+import com.zoraw.cinema.model.domain.Movie;
 import lombok.Builder;
 import lombok.Data;
 
