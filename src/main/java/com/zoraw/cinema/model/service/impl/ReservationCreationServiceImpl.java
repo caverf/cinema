@@ -35,9 +35,10 @@ public class ReservationCreationServiceImpl implements ReservationCreationServic
         Set<Seat> seatsToReserve = reservation.getSeats();
         if (canReserve(screening.getRoom(), seatsToReserve)) {
             updateSeats(screening, seatsToReserve);
+            ScreeningDao screeningDaoAfterUpdate = screeningMapper.toScreeningDao(screening);
+            screeningDaoAfterUpdate.setVersion(screeningDao.getVersion());
+
             try {
-                ScreeningDao screeningDaoAfterUpdate = screeningMapper.toScreeningDao(screening);
-                screeningDaoAfterUpdate.setVersion(screeningDao.getVersion());
                 screeningRepository.save(screeningDaoAfterUpdate);
             } catch (OptimisticLockingFailureException ex) {
                 this.create(reservation);

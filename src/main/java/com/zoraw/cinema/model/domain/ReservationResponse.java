@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 public class ReservationResponse {
 
     private static final String TOO_LATE_DESCRIPTION = "TOO_LATE_DESCRIPTION";
-    private static final String ANOTHER_USER_CHANGED_THE_SAME_ROW_DESCRIPTION = "ANOTHER_USER_CHANGED_THE_SAME_ROW_DESCRIPTION";
+    private static final String BAD_SEAT_CONFIGURATION_DESCRIPTION = "BAD_SEAT_CONFIGURATION_DESCRIPTION";
 
     private boolean isSaved;
     private String failureDescription;
@@ -31,7 +31,7 @@ public class ReservationResponse {
         return ReservationResponse.builder()
                 .isSaved(false)
                 .screening(screening)
-                .failureDescription(ANOTHER_USER_CHANGED_THE_SAME_ROW_DESCRIPTION)
+                .failureDescription(BAD_SEAT_CONFIGURATION_DESCRIPTION)
                 .build();
     }
 }
