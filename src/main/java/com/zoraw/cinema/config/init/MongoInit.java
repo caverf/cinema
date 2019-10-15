@@ -5,7 +5,6 @@ import com.zoraw.cinema.model.db.mongo.dao.MovieDao;
 import com.zoraw.cinema.model.db.mongo.dao.RoomDao;
 import com.zoraw.cinema.model.db.mongo.dao.ScreeningDao;
 import com.zoraw.cinema.model.db.mongo.dao.SeatDao;
-import com.zoraw.cinema.model.domain.Edge;
 import com.zoraw.cinema.util.RandomGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -71,12 +70,8 @@ public class MongoInit implements CommandLineRunner {
                         .number(String.valueOf(i))
                         .available(true)
                         .build();
-                if (i == 1) {
-                    seatDao.setEdge(Edge.LEFT);
-                } else if (i == 5) {
-                    seatDao.setEdge(Edge.RIGHT);
-                } else {
-                    seatDao.setEdge(Edge.NO);
+                if (i == 1 || i == 5) {
+                    seatDao.setEdge(true);
                 }
                 seatDaos.add(seatDao);
             }

@@ -8,16 +8,15 @@ class RoomDaoDtoTest extends Specification {
     @Unroll
     def "should check seat validation for standard empty room"() {
         given: "empty 4x5 room"
-        def roomDto = Room.builder()
+        def room = Room.builder()
                 .seats(getSeats())
                 .build()
 
         expect:
-        roomDto.canReserveSeats(seatsToReserve) == canReserve
+        room.canReserveSeats(seatsToReserve) == canReserve
 
         where:
         seatsToReserve                      | canReserve
-        [] as Set                           | false
         [seat('A', 1), seat('A', 3)] as Set | false
         [seat('A', 1), seat('A', 2)] as Set | true
         [seat('A', 1), seat('A', 4)] as Set | true
@@ -27,12 +26,12 @@ class RoomDaoDtoTest extends Specification {
     @Unroll
     def "should check seat validation for room with corridor"() {
         given: "empty 4x5 room with corridor between 2 and 3 column "
-        def roomDto = Room.builder()
+        def room = Room.builder()
                 .seats(getSeatsWithCorridor())
                 .build()
 
         expect:
-        roomDto.canReserveSeats(seatsToReserve) == canReserve
+        room.canReserveSeats(seatsToReserve) == canReserve
 
         where:
         seatsToReserve                      | canReserve
@@ -40,6 +39,7 @@ class RoomDaoDtoTest extends Specification {
         [seat('A', 3)] as Set               | true
         [seat('A', 3), seat('B', 5)] as Set | true
         [seat('A', 5)] as Set               | true
+        [seat('A', 2)] as Set               | true
     }
 
     private Seat seat(String row, int number) {
@@ -58,12 +58,8 @@ class RoomDaoDtoTest extends Specification {
                         .number(i)
                         .available(true)
                         .build()
-                if (i == 1) {
-                    seat.setEdge(Edge.LEFT)
-                } else if (i == 5) {
-                    seat.setEdge(Edge.RIGHT)
-                } else {
-                    seat.setEdge(Edge.NO)
+                if (i == 1 || i == 5) {
+                    seat.setEdge(true)
                 }
                 seats.add(seat)
             }
@@ -83,18 +79,8 @@ class RoomDaoDtoTest extends Specification {
                         .number(i)
                         .available(true)
                         .build()
-                switch (i) {
-                    case 1:
-                    case 3:
-                        seat.setEdge(Edge.LEFT)
-                        break
-                    case 2:
-                    case 5:
-                        seat.setEdge(Edge.RIGHT)
-                        break
-                    default:
-                        seat.setEdge(Edge.NO)
-
+                if (i != 4) {
+                    seat.setEdge(true)
                 }
                 seats.add(seat)
             }

@@ -18,7 +18,7 @@ public class Seat implements Comparable<Seat>{
     private TicketType ticketType;
 
     private boolean available;
-    private Edge edge;
+    private boolean edge;
 
 
     @Override
