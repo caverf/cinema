@@ -20,7 +20,7 @@ public class ReservationFailureResponse extends ReservationResponse {
                 .build();
     }
 
-    public static ReservationFailureResponse createRowChangedByOtherUserResponse(Screening screening) {
+    public static ReservationFailureResponse createBadSeatConfigurationResponse(Screening screening) {
         return ReservationFailureResponse.builder()
                 .screening(screening)
                 .failureDescription(BAD_SEAT_CONFIGURATION_DESCRIPTION)

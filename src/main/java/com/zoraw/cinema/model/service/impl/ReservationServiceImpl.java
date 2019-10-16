@@ -46,7 +46,7 @@ class ReservationServiceImpl implements ReservationService {
                     .build();
         }
 
-        return ReservationFailureResponse.createRowChangedByOtherUserResponse(getScreening(screeningId));
+        return ReservationFailureResponse.createBadSeatConfigurationResponse(getScreening(screeningId));
     }
 
     private boolean isReservationTooLate(Screening screening) {
