@@ -3,7 +3,7 @@ package com.zoraw.cinema.model.domain
 import spock.lang.Specification
 import spock.lang.Unroll
 
-class RoomDaoDtoTest extends Specification {
+class RoomDaoTest extends Specification {
 
     @Unroll
     def "should check seat validation for standard empty room"() {

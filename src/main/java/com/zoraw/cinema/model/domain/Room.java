@@ -16,16 +16,18 @@ public class Room {
     private Set<Seat> seats;
 
     public boolean canReserveSeats(Set<Seat> seatsToReserve) {
-        if (isSeatsToReserveAreAvailable(seatsToReserve)) {
-            return false;
-        }
-
-        return isAnySeatLeftOver(seatsToReserve);
+        return isSeatsToReserveAreAvailable(seatsToReserve)
+                && isAnySeatLeftOver(seatsToReserve);
     }
 
     private boolean isSeatsToReserveAreAvailable(Set<Seat> seatsToReserve) {
-        return seats.stream()
-                .anyMatch(roomSeat -> seatsToReserve.contains(roomSeat) && !roomSeat.isAvailable());
+        return seatsToReserve.stream()
+                .allMatch(seatToReserve -> this.seats.stream()
+                        .filter(seat -> seat.getRow().equals(seatToReserve.getRow())
+                                && seat.getNumber() == seatToReserve.getNumber())
+                        .findAny()
+                        .map(Seat::isAvailable)
+                        .orElse(false));
     }
 
 
