@@ -3,6 +3,7 @@ package com.zoraw.cinema.model.service.impl;
 import com.zoraw.cinema.model.db.mongo.ScreeningRepository;
 import com.zoraw.cinema.model.db.mongo.mapper.ScreeningMapper;
 import com.zoraw.cinema.model.domain.Reservation;
+import com.zoraw.cinema.model.domain.ReservationFailureResponse;
 import com.zoraw.cinema.model.domain.ReservationResponse;
 import com.zoraw.cinema.model.domain.Screening;
 import com.zoraw.cinema.model.exception.ScreeningNotFoundException;
@@ -33,20 +34,19 @@ class ReservationServiceImpl implements ReservationService {
         Screening screening = getScreening(screeningId);
 
         if (isReservationTooLate(screening)) {
-            return ReservationResponse.createTooLateResponse();
+            return ReservationFailureResponse.createTooLateResponse();
         }
 
         boolean saved = reservationCreationService.create(reservation);
 
         if (saved) {
             return ReservationResponse.builder()
-                    .isSaved(true)
                     .amount(ticketCalculation.calculateTotalAmount(reservation.getTickets()))
                     .expirationTime(screening.getTime().minusMinutes(minimumMinutesBeforeScreening))
                     .build();
         }
 
-        return ReservationResponse.createRowChangedResponse(getScreening(screeningId));
+        return ReservationFailureResponse.createRowChangedByOtherUserResponse(getScreening(screeningId));
     }
 
     private boolean isReservationTooLate(Screening screening) {
