@@ -5,6 +5,7 @@ import com.zoraw.cinema.model.db.mongo.ScreeningRepository;
 import com.zoraw.cinema.model.db.mongo.dao.ScreeningDao;
 import com.zoraw.cinema.model.db.mongo.mapper.ReservationMapper;
 import com.zoraw.cinema.model.db.mongo.mapper.ScreeningMapper;
+import com.zoraw.cinema.model.db.mongo.mapper.SeatMapper;
 import com.zoraw.cinema.model.domain.Reservation;
 import com.zoraw.cinema.model.domain.Screening;
 import com.zoraw.cinema.model.domain.Seat;
@@ -24,6 +25,7 @@ public class ReservationCreationServiceImpl implements ReservationCreationServic
     private final ReservationRepository reservationRepository;
     private final ReservationMapper reservationMapper;
     private final ScreeningMapper screeningMapper;
+    private final SeatMapper seatMapper;
 
     @Override
     public boolean create(Reservation reservation) {
@@ -31,7 +33,7 @@ public class ReservationCreationServiceImpl implements ReservationCreationServic
         ScreeningDao screeningDao = getScreening(reservation.getScreeningId());
         Screening screening = screeningMapper.toScreening(screeningDao);
 
-        Set<Seat> seatsToReserve = reservation.getSeats();
+        Set<Seat> seatsToReserve = seatMapper.toSeats(reservation.getSeats());
         if (screening.getRoom().canReserveSeats(seatsToReserve)) {
             updateSeats(screening, seatsToReserve);
 

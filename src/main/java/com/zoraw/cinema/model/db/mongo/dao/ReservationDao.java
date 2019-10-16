@@ -15,5 +15,6 @@ public class ReservationDao {
     private String firstName;
     private String lastName;
     private String screeningId;
-    private Set<SeatDao> seats;
+    private Set<ReservationSeatDao> seats;
+
 }

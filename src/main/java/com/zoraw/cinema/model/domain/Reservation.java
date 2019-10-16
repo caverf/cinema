@@ -28,5 +28,5 @@ public class Reservation {
     private String screeningId;
 
     @Size(min = 1)
-    private Set<Seat> seats;
+    private Set<ReservationSeat> seats;
 }

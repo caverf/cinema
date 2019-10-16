@@ -15,11 +15,8 @@ public class Seat implements Comparable<Seat>{
     @EqualsAndHashCode.Include
     private int number;
 
-    private TicketType ticketType;
-
     private boolean available;
     private boolean edge;
-
 
     @Override
     public int compareTo(Seat seat) {

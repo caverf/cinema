@@ -1,7 +1,7 @@
 package com.zoraw.cinema.model.service.impl;
 
 import com.zoraw.cinema.model.domain.Reservation;
-import com.zoraw.cinema.model.domain.Seat;
+import com.zoraw.cinema.model.domain.ReservationSeat;
 import com.zoraw.cinema.model.domain.TicketType;
 import com.zoraw.cinema.model.service.TicketCalculation;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,7 +38,7 @@ public class TicketCalculationImpl implements TicketCalculation {
 
         return reservation.getSeats()
                 .stream()
-                .map(Seat::getTicketType)
+                .map(ReservationSeat::getTicketType)
                 .map(ticketType -> prices.get(ticketType))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
