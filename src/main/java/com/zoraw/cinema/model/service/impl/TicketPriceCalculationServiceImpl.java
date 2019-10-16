@@ -1,7 +1,7 @@
 package com.zoraw.cinema.model.service.impl;
 
 import com.zoraw.cinema.model.domain.TicketType;
-import com.zoraw.cinema.model.service.TicketCalculation;
+import com.zoraw.cinema.model.service.TicketPriceCalculationService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import java.util.EnumMap;
 import java.util.Map;
 
 @Service
-public class TicketCalculationImpl implements TicketCalculation {
+public class TicketPriceCalculationServiceImpl implements TicketPriceCalculationService {
 
     @Value("${ticket.adult}")
     private BigDecimal adult;

@@ -10,13 +10,13 @@ public class LastNameValidator implements ConstraintValidator<LastName, String> 
 
     @Override
     public boolean isValid(String lastName, ConstraintValidatorContext context) {
-        return isAllPartsOfLastNameValid(lastName);
+        return areAllPartsOfLastNameValid(lastName);
     }
 
-    private boolean isAllPartsOfLastNameValid(String lastName) {
+    private boolean areAllPartsOfLastNameValid(String lastName) {
         String[] surnameParts = lastName.split("-");
         return Arrays.stream(surnameParts)
-                .allMatch(TextRules::isStartsWithCapitalLetter);
+                .allMatch(TextRules::isFirstLetterCapital);
     }
 
 

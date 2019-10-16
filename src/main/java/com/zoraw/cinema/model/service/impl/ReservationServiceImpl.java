@@ -9,7 +9,7 @@ import com.zoraw.cinema.model.domain.Screening;
 import com.zoraw.cinema.model.exception.ScreeningNotFoundException;
 import com.zoraw.cinema.model.service.ReservationCreationService;
 import com.zoraw.cinema.model.service.ReservationService;
-import com.zoraw.cinema.model.service.TicketCalculation;
+import com.zoraw.cinema.model.service.TicketPriceCalculationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ class ReservationServiceImpl implements ReservationService {
     private final ReservationCreationService reservationCreationService;
     private final ScreeningRepository screeningRepository;
     private final ScreeningMapper screeningMapper;
-    private final TicketCalculation ticketCalculation;
+    private final TicketPriceCalculationService ticketPriceCalculationService;
 
     @Override
     public ReservationResponse create(Reservation reservation) {
@@ -41,7 +41,7 @@ class ReservationServiceImpl implements ReservationService {
 
         if (saved) {
             return ReservationResponse.builder()
-                    .amount(ticketCalculation.calculateTotalAmount(reservation.getTickets()))
+                    .amount(ticketPriceCalculationService.calculateTotalAmount(reservation.getTickets()))
                     .expirationTime(screening.getTime().minusMinutes(minimumMinutesBeforeScreening))
                     .build();
         }
