@@ -34,16 +34,9 @@ public class TicketCalculationImpl implements TicketCalculation {
 
     @Override
     public BigDecimal calculateTotalAmount(Map<TicketType, Integer> tickets) {
-        BigDecimal sum = BigDecimal.ZERO;
-        for (Map.Entry<TicketType, Integer> entry : tickets.entrySet()) {
-            sum = sum.add(prices.get(entry.getKey())
-                    .multiply(getNumberOfTicket(entry)));
-        }
-
-        return sum;
-    }
-
-    private BigDecimal getNumberOfTicket(Map.Entry<TicketType, Integer> entry) {
-        return BigDecimal.valueOf(entry.getValue());
+        return tickets.entrySet()
+                .stream()
+                .map(entry -> prices.get(entry.getKey()).multiply(BigDecimal.valueOf(entry.getValue())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }
