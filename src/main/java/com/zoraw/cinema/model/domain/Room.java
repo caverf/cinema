@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Data
 @Builder
@@ -16,11 +17,11 @@ public class Room {
     private Set<Seat> seats;
 
     public boolean canReserveSeats(Set<Seat> seatsToReserve) {
-        return isSeatsToReserveAreAvailable(seatsToReserve)
+        return areAvailable(seatsToReserve)
                 && isAnySeatLeftOver(seatsToReserve);
     }
 
-    private boolean isSeatsToReserveAreAvailable(Set<Seat> seatsToReserve) {
+    private boolean areAvailable(Set<Seat> seatsToReserve) {
         return seatsToReserve.stream()
                 .allMatch(seatToReserve -> this.seats.stream()
                         .filter(seat -> seat.getRow().equals(seatToReserve.getRow())
@@ -33,11 +34,26 @@ public class Room {
 
     private boolean isAnySeatLeftOver(Set<Seat> seatsToReserve) {
         List<Seat> seatsAfterReservation = getSeatsAfterReservation(seatsToReserve);
+        List<String> rowsWithReservedSeats = getRowsWithReservedSeats(seatsToReserve);
 
         return seatsAfterReservation.stream()
+                .filter(seat -> rowsWithReservedSeats.contains(seat.getRow()))
                 .filter(Seat::isAvailable)
                 .filter(seat -> !seat.isEdge())
-                .allMatch(seat -> isAnyNeighbourAvailable(seatsAfterReservation, seat));
+                .allMatch(seat -> isAnyNeighbourAvailable(
+                        getSeatsInReservedRows(seatsAfterReservation, rowsWithReservedSeats), seat));
+    }
+
+    private List<Seat> getSeatsInReservedRows(List<Seat> seatsAfterReservation, List<String> rowsWithReservedSeats) {
+        return seatsAfterReservation.stream()
+                .filter(seat -> rowsWithReservedSeats.contains(seat.getRow()))
+                .collect(Collectors.toList());
+    }
+
+    private List<String> getRowsWithReservedSeats(Set<Seat> seatsToReserve) {
+        return seatsToReserve.stream()
+                .map(Seat::getRow)
+                .collect(Collectors.toList());
     }
 
     private List<Seat> getSeatsAfterReservation(Set<Seat> seatsToReserve) {
