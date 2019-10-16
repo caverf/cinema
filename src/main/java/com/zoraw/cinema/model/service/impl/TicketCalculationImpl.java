@@ -1,7 +1,5 @@
 package com.zoraw.cinema.model.service.impl;
 
-import com.zoraw.cinema.model.domain.Reservation;
-import com.zoraw.cinema.model.domain.ReservationSeat;
 import com.zoraw.cinema.model.domain.TicketType;
 import com.zoraw.cinema.model.service.TicketCalculation;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +8,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.util.EnumMap;
+import java.util.Map;
 
 @Service
 public class TicketCalculationImpl implements TicketCalculation {
@@ -34,12 +33,17 @@ public class TicketCalculationImpl implements TicketCalculation {
     }
 
     @Override
-    public BigDecimal calculateTotalAmount(Reservation reservation) {
+    public BigDecimal calculateTotalAmount(Map<TicketType, Integer> tickets) {
+        BigDecimal sum = BigDecimal.ZERO;
+        for (Map.Entry<TicketType, Integer> entry : tickets.entrySet()) {
+            sum = sum.add(prices.get(entry.getKey())
+                    .multiply(getNumberOfTicket(entry)));
+        }
 
-        return reservation.getSeats()
-                .stream()
-                .map(ReservationSeat::getTicketType)
-                .map(ticketType -> prices.get(ticketType))
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        return sum;
+    }
+
+    private BigDecimal getNumberOfTicket(Map.Entry<TicketType, Integer> entry) {
+        return BigDecimal.valueOf(entry.getValue());
     }
 }
