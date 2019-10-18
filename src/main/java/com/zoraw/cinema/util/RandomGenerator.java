@@ -4,6 +4,8 @@ import lombok.experimental.UtilityClass;
 
 import java.util.Random;
 
+
+//Jaki jest sens istnienia tej klasy?
 @UtilityClass
 public class RandomGenerator {
 

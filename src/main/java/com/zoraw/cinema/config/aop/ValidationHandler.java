@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+
+//dlaczego ta klasa jest w package config
 @ControllerAdvice
 public class ValidationHandler extends ResponseEntityExceptionHandler {
 

@@ -20,12 +20,14 @@ public class ScreeningRest {
 
     @GetMapping()
     public ResponseEntity<List<MovieWithScreeningsDto>> getScreenings(
+            //local date time? jak to będzie działało dla roznych stref czasowych?
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime from,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime to) {
 
         return ResponseEntity.ok(screeningService.getScreenings(from, to));
     }
 
+    //U gory zwracasz Dto a tu po prostu Screening. Uspojnij konwencje nazewnicze.
     @GetMapping("/{screeningId}")
     public ResponseEntity<Screening> getScreening(@PathVariable String screeningId) {
         return ResponseEntity.ok(screeningService.getScreening(screeningId));
